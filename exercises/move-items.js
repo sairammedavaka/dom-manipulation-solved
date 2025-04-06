@@ -2,7 +2,7 @@
  * SORTING NODES WITHIN A CONTAINER
  * Please, make sure to read the following files in the exercises-info folder before you start
  * * 01 SelectNodes.md
-*/
+ */
 
 /**
  * @task
@@ -12,8 +12,7 @@
  */
 
 // Your code goes here...
-
-
+const allItems = document.querySelectorAll(".item");
 
 /**
  * @task
@@ -23,8 +22,7 @@
  * */
 
 // Your code goes here
-
-
+const main = document.getElementById("main");
 
 /**
  * @task
@@ -34,8 +32,7 @@
  */
 
 // Your code goes here
-
-
+const favs = document.getElementById("favs");
 
 /**
  * @task
@@ -47,8 +44,25 @@
  */
 
 // Your code goes here
-
-
+const updateCollections = (id, direction) => {
+  if (direction === "toMain") {
+    for (const child of favs.children) {
+      if (child.id === id) {
+        child.children[0].classList.remove("fa-heart-crack");
+        child.children[0].classList.add("fa-heart-circle-plus");
+        main.appendChild(child);
+      }
+    }
+  } else {
+    for (const child of main.children) {
+      if (child.id === id) {
+        child.children[0].classList.remove("fa-heart-circle-plus");
+        child.children[0].classList.add("fa-heart-crack");
+        favs.appendChild(child);
+      }
+    }
+  }
+};
 
 /**
  * @task
@@ -65,5 +79,11 @@
  */
 
 // Your code goes here...
-
-
+allItems.forEach((item) => {
+  item.addEventListener("click", function () {
+    updateCollections(
+      this.id,
+      this.parentElement.id === "main" ? "toFavs" : "toMain"
+    );
+  });
+});

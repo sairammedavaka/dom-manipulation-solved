@@ -38,3 +38,45 @@
  */
 
 // Your code goes here...
+const allItems = document.querySelectorAll(".card");
+const dataItem = "data-fav";
+const trueVar = "true";
+const falseVar = "false";
+
+const settingBackground = () => {
+  const parsedData = JSON.parse(localStorage.getItem("favorites"));
+
+  allItems.forEach((item) => {
+    if (parsedData.includes(item.id)) {
+      item.style.background = "#FF0000";
+      item.setAttribute(dataItem, trueVar);
+    } else {
+      item.style.background = "transparent";
+      item.setAttribute(dataItem, falseVar);
+    }
+  });
+};
+
+const settingLocalStorage = (id) => {
+  const parsedData = JSON.parse(localStorage.getItem("favorites"));
+
+  if (!parsedData.includes(id)) {
+    parsedData.push(id);
+  } else {
+    const index = parsedData.indexOf(id);
+    if (index > -1) {
+      parsedData.splice(index, 1);
+    }
+  }
+
+  localStorage.setItem("favorites", JSON.stringify(parsedData));
+  settingBackground();
+};
+
+allItems.forEach((item) => {
+  item.addEventListener("click", function () {
+    settingLocalStorage(this.id);
+  });
+});
+
+settingBackground();
