@@ -38,27 +38,29 @@
  */
 
 // Your code goes here...
-const allItems = document.querySelectorAll(".card");
-const dataItem = "data-fav";
+const container = document.querySelector(".cardsContainer");
 const trueVar = "true";
 const falseVar = "false";
 
 const settingBackground = () => {
   const parsedData = JSON.parse(localStorage.getItem("favorites"));
 
-  allItems.forEach((item) => {
-    if (parsedData.includes(item.id)) {
-      item.style.background = "#FF0000";
-      item.setAttribute(dataItem, trueVar);
-    } else {
-      item.style.background = "transparent";
-      item.setAttribute(dataItem, falseVar);
+  if (parsedData) {
+    for (let card of container.children) {
+      if (parsedData.includes(card.id)) {
+        card.style.background = "#FF0000";
+        card.dataset.fav = trueVar;
+      } else {
+        card.style.background = "transparent";
+        card.dataset.fav = falseVar;
+      }
     }
-  });
+  }
 };
 
 const settingLocalStorage = (id) => {
-  const parsedData = JSON.parse(localStorage.getItem("favorites"));
+  const getLSData = localStorage.getItem("favorites");
+  const parsedData = getLSData ? JSON.parse(getLSData) : [];
 
   if (!parsedData.includes(id)) {
     parsedData.push(id);
@@ -73,10 +75,8 @@ const settingLocalStorage = (id) => {
   settingBackground();
 };
 
-allItems.forEach((item) => {
-  item.addEventListener("click", function () {
-    settingLocalStorage(this.id);
-  });
-});
+for (let card of container.children) {
+  card.addEventListener("click", () => settingLocalStorage(card.id));
+}
 
 settingBackground();

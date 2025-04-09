@@ -37,29 +37,17 @@ const sortBtn = document.querySelectorAll(".sortBtn");
 
 // Your code goes here...
 const sortData = (sortdir) => {
+  const container = document.getElementById("main");
   const newArr = Array.from(allItems);
 
-  if (sortdir === "asc") {
-    const sortCB = (a, b) => {
-      if (a.innerHTML > b.innerHTML) return 1;
-      else if (a.innerHTML < b.innerHTML) return -1;
-      else return 0;
-    };
-
-    newArr.sort(sortCB);
-  } else {
-    const sortCB = (a, b) => {
-      if (a.innerHTML < b.innerHTML) return 1;
-      else if (a.innerHTML > b.innerHTML) return -1;
-      else return 0;
-    };
-
-    newArr.sort(sortCB);
-  }
-
-  newArr.forEach((item) => {
-    document.getElementById("main").append(item);
+  newArr.sort((a, b) => {
+    const aId = parseInt(a.id, 10);
+    const bId = parseInt(b.id, 10);
+    return sortdir === "asc" ? aId - bId : bId - aId;
   });
+
+  container.innerHTML = "";
+  newArr.forEach((item) => container.appendChild(item));
 };
 
 /**

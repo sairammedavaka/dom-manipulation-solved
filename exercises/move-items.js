@@ -45,22 +45,17 @@ const favs = document.getElementById("favs");
 
 // Your code goes here
 const updateCollections = (id, direction) => {
+  const elm = document.getElementById(id);
+
+  const newParent = direction === "toMain" ? main : favs;
+  newParent.appendChild(elm);
+
+  const icon = elm.querySelector("i");
+
   if (direction === "toMain") {
-    for (const child of favs.children) {
-      if (child.id === id) {
-        child.children[0].classList.remove("fa-heart-crack");
-        child.children[0].classList.add("fa-heart-circle-plus");
-        main.appendChild(child);
-      }
-    }
+    icon.classList.replace("fa-heart-crack", "fa-heart-circle-plus");
   } else {
-    for (const child of main.children) {
-      if (child.id === id) {
-        child.children[0].classList.remove("fa-heart-circle-plus");
-        child.children[0].classList.add("fa-heart-crack");
-        favs.appendChild(child);
-      }
-    }
+    icon.classList.replace("fa-heart-circle-plus", "fa-heart-crack");
   }
 };
 
